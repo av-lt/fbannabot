@@ -4,7 +4,7 @@ from discord.ext import commands, tasks
 from facebook_scraper import get_posts
 
 intents = discord.Intents.default()
-intents.message_content = True
+# intents.message_content = True
 
 client = commands.Bot(command_prefix="Anna ", intents=intents)
 facebook_profile_url = "https://www.facebook.com/babkaankalenanna/"
