@@ -1,5 +1,4 @@
 import os
-from decouple import config
 import discord
 from discord.ext import commands, tasks
 from facebook_scraper import get_posts
@@ -57,4 +56,4 @@ async def set_channel(ctx):
     channel_ids[ctx.guild.id] = channel_id
     await ctx.send(f"Photos will now be posted in <#{channel_ids[ctx.guild.id]}>.")
 
-client.run(config("TOKEN"))
+client.run(os.getenv("TOKEN"))
