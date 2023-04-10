@@ -4,7 +4,6 @@ from discord.ext import commands, tasks
 from facebook_scraper import get_posts
 
 intents = discord.Intents.default()
-# intents.message_content = True
 
 client = commands.Bot(command_prefix="Anna ", intents=intents)
 facebook_profile_url = "https://www.facebook.com/babkaankalenanna/"
@@ -56,4 +55,4 @@ async def set_channel(ctx):
     channel_ids[ctx.guild.id] = channel_id
     await ctx.send(f"Photos will now be posted in <#{channel_ids[ctx.guild.id]}>.")
 
-client.run(os.getenv("TOKEN"))
+client.run(os.environ.get("TOKEN"))
