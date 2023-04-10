@@ -1,0 +1,3 @@
+discord.py==2.2.2
+facebook_scraper==0.2.59
+python-decouple==3.8
