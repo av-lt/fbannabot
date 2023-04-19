@@ -7,20 +7,23 @@ intents = discord.Intents.default()
 
 client = commands.Bot(command_prefix="Anna ", intents=intents)
 facebook_profile_url = "https://www.facebook.com/babkaankalenanna/"
-channel_ids = {}
+channel_ids = {827552957951901716: 827552957951901720}
 last_fb_id = None
 
 @client.event
 async def on_ready():
-    send_new_photos.start()
+    if not send_new_photos.is_running():
+        send_new_photos.start()
     print(f"Logged in as {client.user}! posting to {channel_ids}")
 
-@tasks.loop(minutes=15)
+@tasks.loop(seconds=0, minutes=15, hours=0, count=None)
 async def send_new_photos():
     if not channel_ids:
         return
     
+    # print("woop")
     new_photos = get_new_photos()
+    print(new_photos)
     for _, channel_id in channel_ids:
         channel = client.get_channel(channel_id)
         for photo in new_photos:
@@ -53,6 +56,7 @@ async def set_channel(ctx):
         return
 
     channel_ids[ctx.guild.id] = channel_id
+    print(channel_ids)
     await ctx.send(f"Photos will now be posted in <#{channel_ids[ctx.guild.id]}>.")
 
 client.run(os.environ.get("TOKEN"))
