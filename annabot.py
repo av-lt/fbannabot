@@ -1,7 +1,7 @@
 import os
 import discord
 from discord.ext import commands, tasks
-from facebook_scraper import get_posts, get_photos
+from facebook_scraper import get_posts, get_photos, set_user_agent
 
 intents = discord.Intents.default()
 
@@ -12,6 +12,7 @@ last_posts = []
 
 client.description = "prefix: anna"
 
+set_user_agent("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)")
 
 @client.event
 async def on_ready():
