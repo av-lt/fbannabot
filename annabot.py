@@ -1,26 +1,25 @@
 import os
 import discord
 from discord.ext import commands, tasks
-from facebook_scraper import get_posts, set_user_agent
+from facebook_scraper import get_posts
 
 intents = discord.Intents.default()
 
-client = commands.Bot(command_prefix="!", intents=intents)
+description = "prefix: !"
+client = commands.Bot(command_prefix="!", intents=intents, description=description)
 facebook_profile_url = "babkaankalenanna"
-channel_ids = {827552957951901716: 827552957951901720}
+channel_ids = {827552957951901716: 827552957951901720,
+               1056344795699757126:1056344795699757129}
 last_posts = []
 cookies = {
     "xs":os.environ.get("xs"),
     "c_user":os.environ.get("c_user"),
 }
 
-client.description = "prefix: anna"
-
-# set_user_agent("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)")
 
 @client.event
 async def on_ready():
-    # fetch_posts()
+    fetch_posts()
     if not send_new_photos.is_running():
         send_new_photos.start()
     print(f"Logged in as {client.user}! posting to {channel_ids}")
@@ -33,16 +32,18 @@ async def send_new_photos():
     new_photos = fetch_posts()
     print(new_photos)
     for guild_id, channel_id in channel_ids.items():
-        guild = client.get_guild(guild_id)
-        channel = guild.get_channel(channel_id)
-        for photo in new_photos:
-            await channel.send(photo)
+        try:
+            guild = client.get_guild(guild_id)
+            channel = guild.get_channel(channel_id)
+            for photo in new_photos:
+                await channel.send(photo)
+        except:
+            print("Can not post to ", guild_id, channel_id)
 
 def fetch_posts():
     new_photos = []
     for post in get_posts(facebook_profile_url, pages=3, cookies=cookies):
         if 'image' in post:
-            print(post['image'])
             if post['image'] not in last_posts:
                 last_posts.append(post['image'])
                 new_photos.append(post['image'])
