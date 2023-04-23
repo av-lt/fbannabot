@@ -10,7 +10,7 @@ client = commands.Bot(command_prefix="!", intents=intents, description=descripti
 facebook_profile_url = "babkaankalenanna"
 channel_ids = {827552957951901716: 827552957951901720,
                1056344795699757126:1056344795699757129}
-last_posts = []
+last_posts_ids = []
 cookies = {
     "xs":os.environ.get("xs"),
     "c_user":os.environ.get("c_user"),
@@ -44,8 +44,8 @@ def fetch_posts():
     new_photos = []
     for post in get_posts(facebook_profile_url, pages=3, cookies=cookies):
         if 'image' in post:
-            if post['image'] not in last_posts:
-                last_posts.append(post['image'])
+            if post['post_id'] not in last_posts_ids:
+                last_posts_ids.append(post['post_id'])
                 new_photos.append(post['image'])
     return new_photos
 
