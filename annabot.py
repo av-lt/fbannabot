@@ -19,7 +19,7 @@ cookies = {
 
 @client.event
 async def on_ready():
-    fetch_posts()
+    await fetch_posts()
     if not send_new_photos.is_running():
         send_new_photos.start()
     print(f"Logged in as {client.user}! posting to {channel_ids}")
@@ -29,18 +29,17 @@ async def send_new_photos():
     if not channel_ids:
         return
     print("task started")    
-    new_photos = fetch_posts()
+    new_photos = await fetch_posts()
     print(new_photos)
     for guild_id, channel_id in channel_ids.items():
         try:
-            guild = client.get_guild(guild_id)
-            channel = guild.get_channel(channel_id)
+            channel = (client.get_channel(channel_id) or await client.fetch_channel(channel_id))
             for photo in new_photos:
                 await channel.send(photo)
         except:
             print("Can not post to ", guild_id, channel_id)
 
-def fetch_posts():
+async def fetch_posts():
     new_photos = []
     for post in get_posts(facebook_profile_url, pages=3, cookies=cookies):
         if 'image' in post:
