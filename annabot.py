@@ -36,8 +36,8 @@ async def send_new_photos():
             channel = (client.get_channel(channel_id) or await client.fetch_channel(channel_id))
             for photo in new_photos:
                 await channel.send(photo)
-        except:
-            print("Can not post to ", guild_id, channel_id)
+        except Exception as e:
+            print("Can not post to ", guild_id, channel_id, "because: ", e)
 
 async def fetch_posts():
     new_photos = []
@@ -45,7 +45,7 @@ async def fetch_posts():
         if 'image' in post:
             if post['post_id'] not in last_posts_ids:
                 last_posts_ids.append(post['post_id'])
-                new_photos.append(post['image'])
+                new_photos.append(post['image_lowquality'] if post['image'] is None else post['image'])
     return new_photos
 
 
