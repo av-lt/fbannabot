@@ -109,7 +109,9 @@ async def on_message(message):
             odpusti_emote = discord.utils.get(message.guild.emojis, name="odpustamti")
             if odpusti_emote is not None:
                 await message.add_reaction(odpusti_emote)
+                await client.process_commands(message)
                 return
+    await client.process_commands(message)
 
 
 client.run(os.environ.get("TOKEN"))
