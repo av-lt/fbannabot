@@ -101,10 +101,12 @@ async def pici(ctx):
 
 @client.event
 async def on_message(message):
-    if "odpusti" in message.content.lower():
-        odpusti_emote = discord.utils.get(message.guild.emojis, name="odpustamti")
-        if odpusti_emote is not None:
-            await message.add_reaction(odpusti_emote)
+    for item in ["odpusti", "odpustí", "odpusť", "odpust"]:
+        if item in message.content.lower():
+            odpusti_emote = discord.utils.get(message.guild.emojis, name="odpustamti")
+            if odpusti_emote is not None:
+                await message.add_reaction(odpusti_emote)
+                return
 
 
 client.run(os.environ.get("TOKEN"))
