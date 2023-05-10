@@ -17,8 +17,11 @@ channel_ids = {
 }
 
 custom_images = {
-    "niezle": "https://cdn.discordapp.com/attachments/1056352797978787841/1105198568437977108/krasneobraski_1683570185375.jpg",
+    "niezle": "https://cdn.discordapp
+.com/attachments/1056352797978787841/1105198568437977108/krasneobraski_1683570185375.jpg",
     "pici": "https://cdn.discordapp.com/attachments/1056353101092757544/1102880973605064764/7kxE9hnu_400x400.png",
+    "pici_brezno":
+"https://cdn.discordapp.com/attachments/1056352797978787841/1105750043463520286/IMG_20230507_184356.png",
 }
 last_posts_ids = []
 cookies = {
@@ -98,6 +101,9 @@ async def niezle(ctx):
 async def pici(ctx):
     await ctx.send(custom_images["pici"])
 
+@client.command()
+async def brezno(ctx):
+    await ctx.send(custom_images["pici_brezno"]
 
 @client.event
 async def on_message(message):
