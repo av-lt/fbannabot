@@ -102,7 +102,7 @@ async def pici(ctx):
 
 @client.command()
 async def brezno(ctx):
-    await ctx.send(custom_images["pici_brezno"]
+    await ctx.send(custom_images["pici_brezno"])
 
 @client.event
 async def on_message(message):
