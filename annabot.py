@@ -46,6 +46,7 @@ async def send_message_at_midnight():
     guild_id = 1056344795699757126
     channel_id = 1056344795699757129
     user = client.get_user(os.environ.get("uid"))
+    print(now, now.hour, now.minute)
     if now.hour == 0 and now.minute == 30:
         try:
             guild = client.get_guild(guild_id) or await client.fetch_guild(guild_id)
