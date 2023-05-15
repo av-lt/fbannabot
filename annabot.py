@@ -1,3 +1,5 @@
+import asyncio
+import datetime
 import os
 import discord
 from discord.ext import commands, tasks
@@ -19,8 +21,7 @@ channel_ids = {
 custom_images = {
     "niezle": "https://cdn.discordapp.com/attachments/1056352797978787841/1105198568437977108/krasneobraski_1683570185375.jpg",
     "pici": "https://cdn.discordapp.com/attachments/1056353101092757544/1102880973605064764/7kxE9hnu_400x400.png",
-    "pici_brezno":
-"https://cdn.discordapp.com/attachments/1056352797978787841/1105750043463520286/IMG_20230507_184356.png",
+    "pici_brezno": "https://cdn.discordapp.com/attachments/1056352797978787841/1105750043463520286/IMG_20230507_184356.png",
 }
 last_posts_ids = []
 cookies = {
@@ -35,6 +36,29 @@ async def on_ready():
     if not send_new_photos.is_running():
         send_new_photos.start()
     print(f"Logged in as {client.user}! posting to {channel_ids}")
+    if not send_message_at_midnight.is_running():
+        send_message_at_midnight.start()
+
+
+@tasks.loop(seconds=0, minutes=1, hours=0, count=None)
+async def send_message_at_midnight():
+    now = datetime.now()
+    guild_id = 1056344795699757126
+    channel_id = 1056344795699757129
+    user = client.get_user(os.environ.get("uid"))
+    if now.hour == 0 and now.minute == 30:
+        try:
+            guild = client.get_guild(guild_id) or await client.fetch_guild(guild_id)
+            channel = guild.get_channel(channel_id) or await guild.fetch_channel(
+                channel_id
+            )
+
+            await channel.send(
+                f"(Neskorý) šťastný nový deň pre každého okrem {user.mention}"
+            )
+        except Exception as e:
+            print("Can not post to ", guild_id, channel_id, "because: ", e)
+        await asyncio.sleep(60)
 
 
 @tasks.loop(seconds=0, minutes=15, hours=0, count=None)
@@ -100,9 +124,11 @@ async def niezle(ctx):
 async def pici(ctx):
     await ctx.send(custom_images["pici"])
 
+
 @client.command()
 async def brezno(ctx):
     await ctx.send(custom_images["pici_brezno"])
+
 
 @client.event
 async def on_message(message):
