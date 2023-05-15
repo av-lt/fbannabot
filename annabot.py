@@ -45,8 +45,8 @@ async def send_message_at_midnight():
     now = datetime.now()
     guild_id = 1056344795699757126
     channel_id = 1056344795699757129
-    user = client.get_user(os.environ.get("uid"))
-    if now.hour == 22 and now.minute == 36:
+    user = client.get_user(int(os.environ.get("uid")))
+    if now.hour == 22 and now.minute == 39:
         try:
             guild = client.get_guild(guild_id) or await client.fetch_guild(guild_id)
             channel = guild.get_channel(channel_id) or await guild.fetch_channel(
