@@ -45,17 +45,14 @@ async def send_message_at_midnight():
     now = datetime.now()
     guild_id = 1056344795699757126
     channel_id = 1056344795699757129
-    user = client.get_user(int(os.environ.get("uid")))
-    if now.hour == 22 and now.minute == 39:
+    if now.hour == 22 and now.minute == 00:
         try:
             guild = client.get_guild(guild_id) or await client.fetch_guild(guild_id)
             channel = guild.get_channel(channel_id) or await guild.fetch_channel(
                 channel_id
             )
 
-            await channel.send(
-                f"(Neskorý) šťastný nový deň pre každého okrem {user.mention}"
-            )
+            await channel.send(f"Šťastný nový deň pre každého okrem @metalista Snorlax")
         except Exception as e:
             print("Can not post to ", guild_id, channel_id, "because: ", e)
         await asyncio.sleep(60)
