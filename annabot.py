@@ -33,8 +33,8 @@ cookies = {
 @client.event
 async def on_ready():
     await fetch_posts()
-    if not send_new_photos.is_running():
-        send_new_photos.start()
+    # if not send_new_photos.is_running():
+    #     send_new_photos.start()
     print(f"Logged in as {client.user}! posting to {channel_ids}")
     if not send_message_at_midnight.is_running():
         send_message_at_midnight.start()
