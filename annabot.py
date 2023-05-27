@@ -22,6 +22,7 @@ custom_images = {
     "niezle": "https://cdn.discordapp.com/attachments/827552957951901720/1108861667779035156/niezle.png",
     "pici": "https://cdn.discordapp.com/attachments/827552957951901720/1108861667334443038/pici.png",
     "pici_brezno": "https://cdn.discordapp.com/attachments/1056352797978787841/1105750043463520286/IMG_20230507_184356.png",
+    "rejnou": "https://tenor.com/view/eeej-dobre-rejnou-dobre-rano-gm-gif-25805857",
 }
 last_posts_ids = []
 cookies = {
@@ -32,7 +33,7 @@ cookies = {
 
 @client.event
 async def on_ready():
-    await fetch_posts()
+    # await fetch_posts()
     # if not send_new_photos.is_running():
     #     send_new_photos.start()
     print(f"Logged in as {client.user}! posting to {channel_ids}")
@@ -126,6 +127,9 @@ async def pici(ctx):
 async def brezno(ctx):
     await ctx.send(custom_images["pici_brezno"])
 
+@client.command()
+async def rejnou(ctx):
+    await ctx.send(custom_images["rejnou"])
 
 @client.event
 async def on_message(message):
@@ -133,6 +137,7 @@ async def on_message(message):
         if (
             item in message.content.lower()
             and ":odpustamti:" not in message.content.lower()
+            and ":neodpustam_ti" not in message.content.lower()
         ):
             odpusti_emote = discord.utils.get(message.guild.emojis, name="odpustamti")
             if odpusti_emote is not None:
