@@ -33,9 +33,9 @@ cookies = {
 
 @client.event
 async def on_ready():
-    # await fetch_posts()
-    # if not send_new_photos.is_running():
-    #     send_new_photos.start()
+    await fetch_posts()
+    if not send_new_photos.is_running():
+        send_new_photos.start()
     print(f"Logged in as {client.user}! posting to {channel_ids}")
     if not send_message_at_midnight.is_running():
         send_message_at_midnight.start()
@@ -59,9 +59,12 @@ async def send_message_at_midnight():
         await asyncio.sleep(60)
 
 
-@tasks.loop(seconds=0, minutes=15, hours=0, count=None)
+@tasks.loop(seconds=0, minutes=0, hours=1, count=None)
 async def send_new_photos():
     if not channel_ids:
+        return
+    now = datetime.now()
+    if not (6 <= now.hour <= 8):
         return
     print("task started")
     new_photos = await fetch_posts()
