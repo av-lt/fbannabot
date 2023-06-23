@@ -23,6 +23,7 @@ custom_images = {
     "pici": "https://cdn.discordapp.com/attachments/827552957951901720/1108861667334443038/pici.png",
     "pici_brezno": "https://cdn.discordapp.com/attachments/1056352797978787841/1105750043463520286/IMG_20230507_184356.png",
     "rejnou": "https://tenor.com/view/eeej-dobre-rejnou-dobre-rano-gm-gif-25805857",
+    "picus": "https://cdn.discordapp.com/attachments/827552957951901720/1121836399411351613/picus.jpg",
 }
 last_posts_ids = []
 cookies = {
@@ -33,9 +34,9 @@ cookies = {
 
 @client.event
 async def on_ready():
-    await fetch_posts()
-    if not send_new_photos.is_running():
-        send_new_photos.start()
+    # await fetch_posts()
+    # if not send_new_photos.is_running():
+        # send_new_photos.start()
     print(f"Logged in as {client.user}! posting to {channel_ids}")
     if not send_message_at_midnight.is_running():
         send_message_at_midnight.start()
@@ -133,6 +134,10 @@ async def brezno(ctx):
 @client.command()
 async def rejnou(ctx):
     await ctx.send(custom_images["rejnou"])
+
+@client.command()
+async def picus(ctx):
+    await ctx.send(custom_images["picus"])
 
 @client.event
 async def on_message(message):
